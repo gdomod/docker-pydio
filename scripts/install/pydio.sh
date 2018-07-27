@@ -24,22 +24,20 @@ sed -i "s|PYDIO_LOCALE|$PYDIO_LOCALE|g" $WORK_DIRECTORY/core/src/plugins/boot.co
 # Create data directory
 if [ ! -f $DATA_DIRECTORY/pydio/plugins/boot.conf/first_run_passed ]; then
     echo "Initialize pydio data"
-    rm -rf $DATA_DIRECTORY/pydio/*
-    cp -rf $WORK_DIRECTORY/core/src/data/* $DATA_DIRECTORY/pydio/
-
+    
+    rm -rf $WORK_DIRECTORY/core/src/data
+    ln -s $DATA_DIRECTORY/pydio $WORK_DIRECTORY/core/src/data
+    
+    rm -rf /tmp
+    ln -s $DATA_DIRECTORY/pydio/tmp /tmp
+    chmod 777 /tmp
+    touch $DATA_DIRECTORY/pydio/init
+    
     # Load first boot configuration
     mkdir -p $DATA_DIRECTORY/pydio/plugins/boot.conf
     cp -f $WORK_DIRECTORY/core/src/plugins/boot.conf/diag_result.php $DATA_DIRECTORY/pydio/plugins/boot.conf/diag_result.php
     cp -f $WORK_DIRECTORY/core/src/plugins/boot.conf/encoding.php $DATA_DIRECTORY/pydio/plugins/boot.conf/encoding.php
 fi
-
-echo "Configure path pydio data"
-rm -rf $WORK_DIRECTORY/core/src/data
-ln -s $DATA_DIRECTORY/pydio $WORK_DIRECTORY/core/src/data
-
-echo "configure tmp directory"
-rm -rf /tmp
-ln -s $DATA_DIRECTORY/pydio/tmp /tmp
 
 # Loading permissions
 echo "Loading permissions..."
