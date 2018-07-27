@@ -60,7 +60,7 @@ initialize_mysql_database() {
   # initialize MySQL data directory
   if [ ! -d ${MYSQL_DATA_DIR}/mysql ]; then
     echo "Installing database..."
-    
+    cp -rf /backup/mysql/* /var/lib/mysql/
     chown -R mysql:mysql /var/lib/mysql
 
     # start mysql server
