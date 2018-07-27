@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER dev@cedvan.com
 
 # Version Pydio
-ENV PYDIO_VERSION 8.0.1
+ENV PYDIO_VERSION 8.2.1
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install locales
