@@ -25,6 +25,8 @@ sed -i "s|PYDIO_LOCALE|$PYDIO_LOCALE|g" $WORK_DIRECTORY/core/src/plugins/boot.co
 if [ ! -f $DATA_DIRECTORY/pydio/plugins/boot.conf/first_run_passed ]; then
     echo "Initialize pydio data"
     
+    mkdir -p $DATA_DIRECTORY/pydio/tmp
+    
     rm -rf $WORK_DIRECTORY/core/src/data
     ln -s $DATA_DIRECTORY/pydio $WORK_DIRECTORY/core/src/data
     
