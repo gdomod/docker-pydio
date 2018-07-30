@@ -65,6 +65,8 @@ else
     ln -s /etc/nginx/sites-available/pydio-http.conf /etc/nginx/sites-enabled/pydio-http.conf
 fi
 
+sed -i "s|www-data|root|g" /etc/nginx/nginx.conf
+
 # Logs
 mkdir -p $DATA_DIRECTORY/nginx
 
