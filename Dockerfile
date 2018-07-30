@@ -112,7 +112,8 @@ RUN apt-get remove -qy \
     && rm -rf /too/.npm
 
 # Load permissions
-RUN chown -R www-data:www-data /var/www
+RUN chown -R root:root /var/www
+RUN ln -s /var/www/core/src /var/www/core/pydio
 
 # Load Scripts bash for installing Pydio
 COPY scripts /scripts/pydio/
