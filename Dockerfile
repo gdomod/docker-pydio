@@ -4,34 +4,21 @@ MAINTAINER dev@cedvan.com
 # Version Pydio
 ENV PYDIO_VERSION 8.2.1
 ENV DEBIAN_FRONTEND=noninteractive
-
-# Install locales
-RUN apt-get update -qq \
-    && apt-get install -qy locales locales-all \
-    && echo 'LANG=en_US.UTF-8' > /etc/default/locale \
-    && dpkg-reconfigure locales
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
-# Install requirements
-RUN apt-get update -qq \
-    && apt-get install -qqy \
+# Install locales
+RUN apt-get update -qq && apt-get install -qy \
+        locales locales-all \
         apt-utils \
         ca-certificates \
         ssl-cert \
         libaprutil1 \
         apt-transport-https \
         libapr1 \
-        wget
-
-# Install supervisor
-RUN apt-get update -qq \
-    && apt-get install -qqy supervisor
-
-# Install PHP
-RUN apt-get update -qq \
-    && apt-get install -qqy \
+        wget \
+        supervisor \
         php-fpm \
         php-cli \
         php-gd \
@@ -41,34 +28,21 @@ RUN apt-get update -qq \
         php-dom \
         php-intl \
         php-mbstring \
-        php-sqlite3
-
-# Install Nginx
-RUN apt-get update -qq \
-    && apt-get install -qqy \
+        php-sqlite3 \
         nginx \
-        apache2-utils
-
-# Install MySQL
-RUN apt-get update -qq \
-    && apt-get install -qqy \
-        mysql-server
-
-# Configure PHP and Nginx
-RUN mkdir /run/php \
-    && echo "daemon off;" >> /etc/nginx/nginx.conf
-
-# Configure MySQL
-RUN mkdir /backup \
-    && cp -rf /var/lib/mysql /backup/mysql \
-    && rm -rf /var/lib/mysql
-
-# Install build requirements
-RUN apt-get update -qq \
-    && apt-get install -qqy \
+        apache2-utils \
+        mysql-server \
         curl \
         git \
-        unzip
+        unzip \
+    && echo 'LANG=en_US.UTF-8' > /etc/default/locale \
+    && dpkg-reconfigure locales \
+    && echo "daemon off;" >> /etc/nginx/nginx.conf \
+    && mkdir /backup \
+    && cp -rf /var/lib/mysql /backup/mysql \
+    && rm -rf /var/lib/mysql \
+    mkdir /run/php 
+
 
 # Download Pydio
 RUN curl -sL https://github.com/pydio/pydio-core/archive/pydio-core-${PYDIO_VERSION}.tar.gz | tar xzC /tmp \
@@ -112,12 +86,13 @@ RUN apt-get remove -qy \
     && rm -rf /too/.npm
 
 # Load permissions
-RUN chown -R root:root /var/www
-RUN ln -s /var/www/core/src /var/www/core/pydio
+RUN chown -R root:root /var/www \
+    && ln -s /var/www/core/src /var/www/core/pydio \
+    && chmod -R u+x /scripts/pydio
 
 # Load Scripts bash for installing Pydio
 COPY scripts /scripts/pydio/
-RUN chmod -R u+x /scripts/pydio
+RUN 
 
 # Load assets
 COPY assets/supervisor/conf.d /etc/supervisor/conf.d
