@@ -85,20 +85,17 @@ RUN apt-get remove -qy \
     && rm -rf /root/.composer \
     && rm -rf /too/.npm
 
+COPY scripts /scripts/pydio/
+COPY assets/supervisor/conf.d /etc/supervisor/conf.d
+COPY assets/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
+COPY assets/vhosts /etc/nginx/sites-available
+COPY assets/config /assets/config
+
 # Load permissions
 RUN chown -R root:root /var/www \
     && ln -s /var/www/core/src /var/www/core/pydio \
     && chmod -R u+x /scripts/pydio
 
-# Load Scripts bash for installing Pydio
-COPY scripts /scripts/pydio/
-RUN 
-
-# Load assets
-COPY assets/supervisor/conf.d /etc/supervisor/conf.d
-COPY assets/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
-COPY assets/vhosts /etc/nginx/sites-available
-COPY assets/config /assets/config
 
 # Clean
 RUN apt-get -qqy --purge autoremove \
