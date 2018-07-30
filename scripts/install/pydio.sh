@@ -44,6 +44,6 @@ fi
 
 # Loading permissions
 echo "Loading permissions..."
-chown -R www-data:www-data \
+chown -R root:root \
     $WORK_DIRECTORY/core/src/data \
     $DATA_DIRECTORY/pydio
