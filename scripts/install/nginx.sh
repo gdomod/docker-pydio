@@ -70,5 +70,5 @@ mkdir -p $DATA_DIRECTORY/nginx
 
 # Load permissions
 echo "Loading Nginx permissions..."
-chown -R www-data:www-data \
+chown -R root:root \
     $DATA_DIRECTORY/nginx
