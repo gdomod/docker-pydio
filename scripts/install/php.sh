@@ -16,7 +16,9 @@ mkdir -p $DATA_DIRECTORY/php-cli
 sed -i "s|error_log =.*|error_log = ${DATA_DIRECTORY}/php-fpm/errors.log|g" /etc/php/7.0/fpm/php.ini
 sed -i "s|error_log =.*|error_log = ${DATA_DIRECTORY}/php-cli/errors.log|g" /etc/php/7.0/cli/php.ini
 
+sed -i "s|www-data|root|g" /etc/php/7.0/fpm/pool.d/www.conf
+
 # Load permissions
-chown -R www-data:www-data \
+chown -R root:root \
     $DATA_DIRECTORY/php-fpm \
     $DATA_DIRECTORY/php-cli
