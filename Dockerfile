@@ -35,13 +35,14 @@ RUN apt-get update -qq && apt-get install -qy \
         curl \
         git \
         unzip \
+        nano \
     && echo 'LANG=en_US.UTF-8' > /etc/default/locale \
     && dpkg-reconfigure locales \
     && echo "daemon off;" >> /etc/nginx/nginx.conf \
     && mkdir /backup \
     && cp -rf /var/lib/mysql /backup/mysql \
     && rm -rf /var/lib/mysql \
-    mkdir /run/php 
+    && mkdir -p /run/php 
 
 
 # Download Pydio
